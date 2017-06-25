@@ -53,12 +53,23 @@ services:
       - ordering.api
       - identity.api
       - basket.api
-
+  
+  locations.api:
+    image: locations.api
+    build:
+      context: ./src/Services/Location/Locations.API
+      dockerfile: Dockerfile
+    depends_on:
+      - nosql.data
+      
   sql.data:
     image: microsoft/mssql-server-windows
+  
+  nosql.data:
+    image: mongo:windowsservercore
 
   basket.data:
-    image: eshop/redis-win
+    image: redis:nanoserver
 #    build:
 #      context: ./_docker/redis
 #      dockerfile: Dockerfile.nanowin
@@ -66,7 +77,7 @@ services:
         - "6379:6379"
 
   rabbitmq:
-    image: eshop/rabbitmq-win
+    image: spring2/rabbitmq
 #    build:
 #      context: ./_docker/rabbitmq
 #      dockerfile: Dockerfile.nanowin  
